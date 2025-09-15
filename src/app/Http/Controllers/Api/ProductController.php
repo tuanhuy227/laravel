@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Log;
 
 class ProductController extends Controller
 {
@@ -21,11 +22,20 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'string|max:255',
+            'description' => 'string',
+            'price' => 'nullable',
+            'stock' => 'nullable'
+        ]);
+
         $product = Product::create($request->only(['name', 'description', 'price', 'stock']));
 
         if ($request->filled('categories')) {
             $product->categories()->sync($request->categories);
         }
+    
+        Log::info('1', $request->hasFile('images'));
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
