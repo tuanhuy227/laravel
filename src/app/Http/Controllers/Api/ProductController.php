@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Log;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ProductsImport;
 
 class ProductController extends Controller
 {
@@ -87,5 +89,13 @@ class ProductController extends Controller
         $product->categories()->detach();
         $product->delete();
         return response()->json(null, 204);
+    }
+
+    public function import(Request $request) {
+        $request->validate([
+            'file' => 'required'
+        ]);
+        Excel::import(new ProductsImport, $request->file('file'));
+        return response()->json(['message' => 'Import successful'], 200);
     }
 }

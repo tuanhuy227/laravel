@@ -12,7 +12,7 @@ class Image extends Model
 
     public function getUrlAttribute()
     {
-        return Storage::url($this->path);
+        return config('app.url') . Storage::url($this->path);
     }
     
 

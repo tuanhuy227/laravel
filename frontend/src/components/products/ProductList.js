@@ -16,6 +16,9 @@ const ProductList = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
+  const [file, setFile] = useState(null);
+  const [message, setMessage] = useState("");
+
 
   useEffect(() => {
     fetchProducts();
@@ -93,6 +96,26 @@ const ProductList = () => {
     );
   }
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    if (!file) {
+      setMessage("Please select a file first!");
+      return;
+    }
+
+    try {
+      const response = await productService.importProducts(file);
+      setMessage(response.message);
+      fetchProducts();
+    } catch (error) {
+      console.error(error);
+      setMessage("Import failed!");
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <div className="px-4 py-6 sm:px-0">
@@ -105,6 +128,17 @@ const ProductList = () => {
             Add Product
           </button>
         </div>
+        <div className="p-4">
+      <h2 className="text-xl mb-2">Import Products (CSV)</h2>
+      <input type="file" accept=".csv" onChange={handleFileChange} />
+      <button
+        onClick={handleUpload}
+        className="ml-2 px-4 py-2 bg-blue-500 text-white rounded"
+      >
+        Import
+      </button>
+      {message && <p className="mt-2">{message}</p>}
+    </div>
 
         {products.length === 0 ? (
           <div className="text-center py-12">

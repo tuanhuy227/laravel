@@ -16,6 +16,11 @@ RUN apt-get update && apt-get install -y \
 
  RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    unzip \
+    && docker-php-ext-install zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Cài Composer
 COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer

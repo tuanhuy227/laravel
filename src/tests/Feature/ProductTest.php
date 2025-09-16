@@ -257,4 +257,33 @@ class ProductTest extends TestCase
                 'total'
             ]);
     }
+
+    public function test_imports_products_from_csv() {
+       $csvContent = <<<CSV
+name,description,price,stock
+Product A,Description A,100,10
+Product B,Description B,200,20
+CSV;
+
+    // Tạo file tạm
+    $tmpFile = tmpfile();
+    $path = stream_get_meta_data($tmpFile)['uri'];
+    fwrite($tmpFile, $csvContent);
+
+    $file = new UploadedFile(
+        $path,
+        'products.csv',
+        'text/csv',
+        null,
+        true
+    );
+
+        $response = $this->postJson('/api/products/import', [
+            'file' => $file
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['message' => 'Import successful']);
+    }
 }
+
