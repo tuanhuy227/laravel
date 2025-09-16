@@ -30,3 +30,33 @@ composer require maatwebsite/excel:^3.1
 
 php artisan test --filter=ProductTest
 
+XDEBUG_MODE=coverage php artisan test --coverage-html=storage/coverage-html
+
+docker run -d --name sonarqube \
+  -p 9000:9000 \
+  sonarqube:community
+
+php artisan make:migration create_types_table --create=types
+
+php artisan make:seeder TypeSeeder
+
+php artisan db:seed
+
+# Project info
+sonar.projectKey=laravel-app
+sonar.projectName=Laravel App
+sonar.projectVersion=1.0
+
+# Source code
+sonar.sources=app
+sonar.exclusions=vendor/**,storage/**,node_modules/**
+
+# Tests
+sonar.tests=tests
+sonar.test.inclusions=tests/**/*.php
+
+# Test coverage
+sonar.php.coverage.reportPaths=storage/coverage.xml
+
+# Encoding
+sonar.sourceEncoding=UTF-8

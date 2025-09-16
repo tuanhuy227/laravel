@@ -14,4 +14,8 @@ class Post extends Model
     public function images() {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    public function types() {
+        return $this->belongsToMany(Type::class, 'post_type');
+    }
 }
