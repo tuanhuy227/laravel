@@ -11,12 +11,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('products', \App\Http\Controllers\Api\ProductController::class);
     Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::class);
     Route::apiResource('posts', \App\Http\Controllers\Api\PostController::class);
+
+    // Auth routes
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 });
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
-    ->middleware('guest')
     ->name('register');
 
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])
-    ->middleware('guest')
     ->name('login');

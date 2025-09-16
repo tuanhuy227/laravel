@@ -16,12 +16,21 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const initAuth = () => {
+    const initAuth = async () => {
       const token = localStorage.getItem('token');
       const userData = localStorage.getItem('user');
       
       if (token && userData) {
-        setUser(JSON.parse(userData));
+        try {
+          // Verify token is still valid by making a request
+          await authService.getProfile();
+          setUser(JSON.parse(userData));
+        } catch (error) {
+          // Token is invalid, clear storage
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          setUser(null);
+        }
       }
       setLoading(false);
     };
