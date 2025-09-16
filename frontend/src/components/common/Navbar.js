@@ -53,6 +53,16 @@ const Navbar = () => {
                   Products
                 </Link>
                 <Link
+                  to="/posts"
+                  className={`px-3 py-2 rounded-md text-sm font-medium ${
+                    isActive('/posts')
+                      ? 'bg-blue-700 text-white'
+                      : 'text-blue-100 hover:bg-blue-500 hover:text-white'
+                  }`}
+                >
+                  Posts
+                </Link>
+                <Link
                   to="/categories"
                   className={`px-3 py-2 rounded-md text-sm font-medium ${
                     isActive('/categories')

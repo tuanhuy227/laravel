@@ -20,6 +20,7 @@ import Register from './components/auth/Register';
 // Feature Components
 import ProductList from './components/products/ProductList';
 import CategoryList from './components/categories/CategoryList';
+import PostList from './components/posts/PostList';
 
 // Layout wrapper for protected pages
 const Layout = ({ children }) => (
@@ -87,6 +88,17 @@ function App() {
                 <ProtectedRoute>
                   <Layout>
                     <CategoryList />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+
+            <Route 
+              path="/posts" 
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <PostList />
                   </Layout>
                 </ProtectedRoute>
               } 
