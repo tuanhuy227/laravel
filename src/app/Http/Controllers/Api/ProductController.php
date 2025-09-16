@@ -22,20 +22,19 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'string|max:255',
-            'description' => 'string',
-            'price' => 'nullable',
-            'stock' => 'nullable'
-        ]);
+        $validated = $request->validate([
+        'name'        => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'price'       => 'required|min:0',
+        'stock'       => 'required|min:0',
+        'images.*'    => 'nullable|image|max:2048',
+    ]);
 
-        $product = Product::create($request->only(['name', 'description', 'price', 'stock']));
+        $product = Product::create($validated);
 
         if ($request->filled('categories')) {
             $product->categories()->sync($request->categories);
         }
-    
-        Log::info('1', $request->hasFile('images'));
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
@@ -43,7 +42,7 @@ class ProductController extends Controller
                 $product->images()->create(['path' => $path]);
             }
         }
-        
+
         return response()->json($product->load(['images', 'categories']), 201);
 
     }

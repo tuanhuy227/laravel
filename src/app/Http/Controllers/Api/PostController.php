@@ -52,7 +52,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $$post)
+    public function update(Request $request, Post $post)
     {
         $data = $request->validate([
             'title' => 'string|max:255',
@@ -65,7 +65,7 @@ class PostController extends Controller
 
         if ($request->hasFile('images')){
             foreach($request->file('images') as $image) {
-                $path = $file->store('uploads', 'public');
+                $path = $image->store('uploads', 'public');
                 $post->images()->create(['path' => $path]);
             }
         }
@@ -81,7 +81,7 @@ class PostController extends Controller
         foreach ($post->images as $img) {
             \Storage::disk('public')->delete($img->path);
             $img->delete();
-        } 
+        }
         $post->delete();
         return response()->json(null, 204);
     }
