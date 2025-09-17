@@ -25,7 +25,7 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:categories,slug',
             'description' => 'nullable|string',
-            "status" => 'boolean'
+            'status' => 'integer'
         ]);
 
         $category = Category::create($data);
@@ -50,7 +50,7 @@ class CategoryController extends Controller
             'name' => 'string|max:255',
             'slug' => 'string|max:255|unique:categories,slug,' . $category->id,
             'description' => 'nullable|string',
-            'status' => 'boolean'
+            'status' => 'integer'
         ]);
 
         $category->update($data);

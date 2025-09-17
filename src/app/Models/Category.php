@@ -11,6 +11,19 @@ class Category extends Model
 
     protected $fillable = ['name', 'slug', 'status', 'description'];
 
+    const STATUS_ACTIVE   = 'active';
+    const STATUS_INACTIVE = 'inactive';
+    const STATUS_ARCHIVED = 'archived';
+
+    public static function getStatuses(): array
+    {
+        return [
+            self::STATUS_ACTIVE,
+            self::STATUS_INACTIVE,
+            self::STATUS_ARCHIVED,
+        ];
+    }
+
     public function products() {
         return $this->belongsToMany(Product::class);
     }

@@ -30,6 +30,7 @@ class ProductController extends Controller
         'price'       => 'required|min:0',
         'stock'       => 'required|min:0',
         'images.*'    => 'nullable|image|max:2048',
+        'status' => 'integer'
     ]);
 
         $product = Product::create($validated);
@@ -49,6 +50,8 @@ class ProductController extends Controller
 
     }
 
+
+
     /**
      * Display the specified resource.
      */
@@ -62,7 +65,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $product->update($request->only(['name', 'description', 'price', 'stock']));
+        $product->update($request->only(['name', 'description', 'price', 'stock', 'status']));
 
         $product->categories()->sync($request->input('categories',[]));
 

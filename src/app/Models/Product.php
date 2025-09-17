@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description', 'price', 'stock'];
+    protected $fillable = ['name', 'description', 'price', 'stock', 'status'];
 
     public function images() {
         return $this->morphMany(Image::class, 'imageable');
     }
-    
+
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_product');

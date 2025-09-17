@@ -36,6 +36,12 @@ docker run -d --name sonarqube \
   -p 9000:9000 \
   sonarqube:community
 
+sonar-scanner \
+  -Dsonar.projectKey=project-laravel \
+  -Dsonar.sources=. \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.token=sqa_b87cf3abd9ff3153e4440427ddabb750dd31ebe0
+
 php artisan make:migration create_types_table --create=types
 
 php artisan make:seeder TypeSeeder
@@ -70,3 +76,4 @@ php artisan make:event PostCreated
 php artisan make:listener SendNotificationListener
 php artisan make:seeder UserSeeder
 php artisan make:factory UserFactory
+php artisan make:migration add_status_to_products_table --table=products
