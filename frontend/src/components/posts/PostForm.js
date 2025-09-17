@@ -4,7 +4,7 @@ import { postService } from '../../services/postService';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../common/LoadingSpinner';
 
-const PostForm = ({ post, categories, onSave, onCancel }) => {
+const PostForm = ({ post, types, onSave, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
@@ -20,10 +20,11 @@ const PostForm = ({ post, categories, onSave, onCancel }) => {
       title: post?.title || '',
       content: post?.content || '',
       author: post?.author || '',
+      types: post?.types?.map(type => type.id) || []
     }
   });
 
-  const watchedCategories = watch('categories');
+  const watchedTypes = watch('types');
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -122,6 +123,27 @@ const PostForm = ({ post, categories, onSave, onCancel }) => {
           <p className="mt-1 text-sm text-red-600">{errors.author.message}</p>
         )}
       </div>
+
+       <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Types
+          </label>
+          <select
+            {...register('types')}
+            multiple
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            size="4"
+          >
+            {types.map(type => (
+              <option key={type.id} value={type.id}>
+                {type.name}
+              </option>
+            ))}
+          </select>
+          <p className="mt-1 text-sm text-gray-500">
+            Hold Ctrl/Cmd to select multiple categories
+          </p>
+        </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700">

@@ -1,3 +1,4 @@
+import { get } from 'react-hook-form';
 import api from './api';
 
 export const postService = {
@@ -95,6 +96,10 @@ export const postService = {
         'Content-Type': 'multipart/form-data',
       },
     });
+    return response.data;
+  },
+  getAllTypes: async () => {
+    const response = await api.get('/types');
     return response.data;
   }
 };

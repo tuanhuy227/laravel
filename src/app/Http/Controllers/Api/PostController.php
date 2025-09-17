@@ -37,7 +37,11 @@ class PostController extends Controller
             }
         }
 
-        return response()->json($post->load('images'), 201);
+        if ($request->filled('types')){
+            $post->types()->sync($request->types);
+        }
+
+        return response()->json($post->load('images', 'types'), 201);
 
     }
 
@@ -46,7 +50,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return $post->load('images');
+        return $post->load('images', 'types');
     }
 
     /**
@@ -70,6 +74,10 @@ class PostController extends Controller
             }
         }
 
+        if ($request->filled('types')){
+            $post->types()->sync($request->types);
+        }
+
         return response()->json($post->load('images'));
     }
 
@@ -82,6 +90,7 @@ class PostController extends Controller
             \Storage::disk('public')->delete($img->path);
             $img->delete();
         }
+        $post->types()->detach();
         $post->delete();
         return response()->json(null, 204);
     }

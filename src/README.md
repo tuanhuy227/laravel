@@ -60,3 +60,13 @@ sonar.php.coverage.reportPaths=storage/coverage.xml
 
 # Encoding
 sonar.sourceEncoding=UTF-8
+
+php artisan make:model Post -m        # Tạo model + migration
+php artisan make:controller PostController --resource
+php artisan make:request StorePostRequest
+php artisan make:middleware CheckRole
+php artisan make:job ProcessPostJob
+php artisan make:event PostCreated
+php artisan make:listener SendNotificationListener
+php artisan make:seeder UserSeeder
+php artisan make:factory UserFactory

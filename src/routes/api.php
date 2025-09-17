@@ -12,6 +12,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::class);
     Route::apiResource('posts', \App\Http\Controllers\Api\PostController::class);
     Route::post('products/import', [\App\Http\Controllers\Api\ProductController::class, 'import']);
+    Route::apiResource('types', \App\Http\Controllers\Api\TypeController::class)->only(['index']);
 
     // Auth routes
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

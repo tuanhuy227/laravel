@@ -16,10 +16,12 @@ const PostList = () => {
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
+  const [types, setTypes] = useState([]);
 
 
   useEffect(() => {
     fetchPosts();
+    fetchTypes();
   }, []);
 
   const fetchPosts = async (page = 1) => {
@@ -38,6 +40,16 @@ const PostList = () => {
       setLoading(false);
     }
   };
+
+    const fetchTypes = async () => {
+      try {
+        const data = await postService.getAllTypes();
+        setTypes(data || []);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
 
 
   const handleDelete = async (id) => {
@@ -205,6 +217,7 @@ const PostList = () => {
             post={editingPost}
             onSave={handlePostSaved}
             onCancel={handleModalClose}
+            types={types}
           />
         </Modal>
       </div>
